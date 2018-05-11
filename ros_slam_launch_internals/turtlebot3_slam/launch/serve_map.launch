@@ -1,0 +1,6 @@
+<launch>
+  <!-- Map server -->
+  <arg name="map_file" default="slam_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot3_slam)/maps/$(arg map_file)">
+  </node>
+</launch>
