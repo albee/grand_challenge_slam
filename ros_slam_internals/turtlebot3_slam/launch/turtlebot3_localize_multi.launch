@@ -48,4 +48,7 @@
       <param name="base_frame_id"             value="$(arg ns)/base_footprint"/>
     </node>
 
+    <!-- AMCL Global Localization-->
+    <node name="particle_init" pkg="particle_init" type="global_localization_client.py"></node>
+
 </launch>

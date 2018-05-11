@@ -1,4 +1,4 @@
-Operating Turtlebot for SLAM simulation
+Operating Turtlebot for SLAM simulation and hardware
 
 --Single Agent, Hardware--
 [REMOTE]
@@ -63,8 +63,8 @@ roslaunch turtlebot3_bringup turtlebot3_robot_multi.launch ns:=tb3_2
 [REMOTE]
 roslaunch turtlebot3_slam_multi.launch ns:=tb3_0
 rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel:=tb3_0/cmd_vel
-rosrun map_server map_saver -f blargh_map.yaml
-rosrun map_server map_server map_file:=blargh_map.yaml
+rosrun map_server map_saver -f blargh_map
+rosrun map_server map_server map_file:=blargh_map
 
 #Localize from given map (requires initial position)
 
@@ -74,22 +74,3 @@ roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_1 x0:=0.0 y0:
 roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_2 x0:=0.5 y0:=0.0 th0:=0.0
 rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_localize.rviz
 
-
---Multi Agent, Sim with Localization--
-[REMOTE]
-roscore
-
-#If driving around to generate map
-
-roslaunch turtlebot3_slam_multi.launch ns:=tb3_0
-rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel:=tb3_0/cmd_vel
-rosrun map_server map_saver -f blargh_map.yaml
-rosrun map_server map_server map_file:=blargh_map.yaml
-
-#Localize from given map (requires initial position)
-
-roslaunch turtlebot3_slam serve_map.launch ns:=blargh_map
-roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_0 x0:=0.0 y0:=-2.0 th0:=1.57
-roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_1 x0:=0.0 y0:=-0.5 th0:=1.57
-roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_2 x0:=0.5 y0:=0.0 th0:=0.0
-rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_localize.rviz
