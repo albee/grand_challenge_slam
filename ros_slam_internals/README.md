@@ -1,23 +1,25 @@
---Multi Agent, Sim/Hardware with Localization--
+Multi Agent, Sim/Hardware with SLAM+Localization
+
+`
 [REMOTE]
 roscore
 
 #IF Driving around to generate map
 	#IF visualization desired
-		rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_slam.rviz
+		rosrun rviz rviz -d 'rospack find turtlebot3_slam'/rviz/turtlebot3_slam.rviz
 	#ENDIF
 
 	#IF Hardware
 		[TURTLEBOT]
-		roslaunch turtlebot3_bringup turtlebot3_robot_multi.launch ns:=tb3_0
+		`roslaunch turtlebot3_bringup turtlebot3_robot_multi.launch ns:=tb3_0`
 
 		[REMOTE]
-		roslaunch turtlebot3_slam turtlebot3_slam_multi.launch ns:=tb3_0
+		`roslaunch turtlebot3_slam turtlebot3_slam_multi.launch ns:=tb3_0`
 		# Adaptive sampling drives us around
 	#ELSE IF Software
-		roslaunch turtlebot3_gazebo turtlebot3_world.launch
-		roslaunch turtlebot3_slam turtlebot3_slam.launch
-		rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel
+		`roslaunch turtlebot3_gazebo turtlebot3_world.launch`
+		`roslaunch turtlebot3_slam turtlebot3_slam.launch`
+		`rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel`
 
 	#ENDIF
 
@@ -43,18 +45,15 @@ roscore
 	rosrun turtlebot3_teleop turtlebot3_teleop_key cmd_vel:=tb3_0/cmd_vel
 
 #ENDIF
+`
+The current setup uses two ROS packages to operate: gmapping and amcl. gmapping is a particle filter-based SLAM package,
+which takes in the /scan topic and publishes the /map and /map_metadata topics and updates the /odom topic. Some teams also rely on the /dynamic_map service, which immediately returns the latest map. amcl (adaptive Monte Carlo localization) estimates position against a known map, updating the /odom topic.
 
-
-The current setup uses two ROS packages to operate: gmapping and amcl. Gmapping is a particle filter-based SLAM package,
-which takes in the /scan topic and publishes the /map and /map_metadata topics. Some teams also rely on the /dynamic_map service,
-which immediately returns the latest map. amcl (adaptive Monte Carlo localization) estimates position against a known map,
-updating the /odom topic.
-
-Custom launch files, an rviz config file, and a client node package must be added to the catkin_ws. Launch files must go into their respective 
-Turtlebot packages.
+Custom launch files, an rviz config file, and a client node package must be added to the catkin_ws. Launch files must go into their respective Turtlebot packages.
 
 The overall CONOPS is as follows:
-Optional: SLAM visualization can be launched with
+(Optional) SLAM visualization can be launched with
+
 1. A single Turtlebot is started with ns:=tb3_0
 2. A single Turtlebot explores the map using the adaptive sampling team's algorithm to explore
 3. When adaptive sampling indicates that sampling is complete, the map is saved as a .yaml
