@@ -1,4 +1,4 @@
---Multi Agent, Sim/Hardware with Localization--
+Multi Agent, Sim/Hardware with Localization
 [REMOTE]
 roscore
 
@@ -45,8 +45,8 @@ roscore
 #ENDIF
 
 
-The current setup uses two ROS packages to operate: gmapping and amcl. Gmapping is a particle filter-based SLAM package,
-which takes in the /scan topic and publishes the /map and /map_metadata topics. Some teams also rely on the /dynamic_map service,
+The current setup uses two ROS packages to operate: gmapping and amcl. gmapping is a particle filter-based SLAM package,
+which takes in the /scan topic and publishes the /map and /map_metadata topics and updates the /odom topic. Some teams also rely on the /dynamic_map service,
 which immediately returns the latest map. amcl (adaptive Monte Carlo localization) estimates position against a known map,
 updating the /odom topic.
 
