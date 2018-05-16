@@ -18,6 +18,11 @@ The following launch files should be added to your local catkin_ws from /ros_sla
 /turtlebot3_slam/launch/turtlebot3_slam_multi.launch
 ```
 
+The Turtlebots have all been updated with a corrected
+```
+/turtlebot3_bringup/launch/turtlebot3_robot_multi.launch
+```
+
 **End Note**
 
 ----
