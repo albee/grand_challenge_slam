@@ -1,4 +1,4 @@
-**Note to Yuening on Updating Launch Files**
+**Note to Yuening on Updating Files**
 
 The following package folder should be added to your local catkin_ws from /ros_slam_internals:
 ```
