@@ -78,6 +78,20 @@ The overall CONOPS is as follows. Note all commands are for [REMOTE] unless indi
 Because multiple Turtlebots are in use, namespacing divides up their essential topics (/cmd_vel, /imu, /joint_states, /odom, /scan) along with the node /robot_state_publisher which is used for updating tf. Custom launch files allow for this, with command line arguments specifying Turtlebot namespace.
 
 Instructions including sim:
+
+```
+roscore
+[TURTLEBOT]roslaunch turtlebot3_bringup turtlebot3_robot_multi.launch ns:=tb3_0
+rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_localize.rviz
+roslaunch turtlebot3_slam turtlebot3_slam_multi.launch ns:=tb3_0
+rosrun map_server map_saver -f blargh_map
+rosnode kill /tb3_0/turtlebot3_slam_gmapping
+roslaunch turtlebot3_slam serve_map.launch map_file:=$HOME/catkin_ws/blargh_map.yaml
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_0 x0:=0.0 y0:=-2.0 th0:=1.57
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_1 x0:=0.0 y0:=-0.5 th0:=1.57
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_2 x0:=0.5 y0:=0.0 th0:=0.0
+```
+	
 ```
 [REMOTE]
 roscore
