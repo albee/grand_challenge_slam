@@ -1,3 +1,26 @@
+**Note to Yuening on Updating Launch Files**
+
+The following package folder should be added to your local catkin_ws from /ros_slam_internals:
+```
+/particle_init
+```
+You will need to run
+ ```
+ catkin_make
+ . ~/catkin_ws/devel/setup.bash
+ ```
+ to add the particle filter intialization node to your local catkin workspace.
+ 
+The following launch files should be added to your local catkin_ws from /ros_slam_internals:
+```
+/turtlebot3_bringup/launch/turtlebot3_remote_multi.launch
+/turtlebot3_slam/launch/turtlebot3_localize_multi.launch
+/turtlebot3_slam/launch/turtlebot3_slam_multi.launch
+```
+
+**End Note**
+
+----
 Multi Agent SLAM+Localization, for Sim/Hardware
 
 The current setup uses two ROS packages to operate: gmapping and amcl. gmapping is a particle filter-based SLAM package,
