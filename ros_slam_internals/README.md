@@ -5,6 +5,13 @@ which takes in the /scan topic and publishes the /map and /map_metadata topics a
 
 Custom launch files, an rviz config file, and a client node package must be added to the catkin_ws. Launch files must go into their respective Turtlebot packages.
 
+Note: you will need to run 
+ ```
+ catkin_make
+ . ~/catkin_ws/devel/setup.bash
+ ```
+ to add the particle filter initialization node to your catkin workspace.
+
 The overall CONOPS is as follows. Note all commands are for [REMOTE] unless indicated [TURTLEBOT]:
 (Optional) SLAM/Localization visualization can be launched with  
 	```
