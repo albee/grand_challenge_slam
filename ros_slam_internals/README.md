@@ -1,9 +1,44 @@
+**Note to Yuening on Updating Files**
+
+The following package folder should be added to your local catkin_ws from /ros_slam_internals:
+```
+/particle_init
+```
+You will need to run
+ ```
+ catkin_make
+ . ~/catkin_ws/devel/setup.bash
+ ```
+ to add the particle filter intialization node to your local catkin workspace.
+ 
+The following launch files should be added to your local catkin_ws from /ros_slam_internals:
+```
+/turtlebot3_bringup/launch/turtlebot3_remote_multi.launch
+/turtlebot3_slam/launch/turtlebot3_localize_multi.launch
+/turtlebot3_slam/launch/turtlebot3_slam_multi.launch
+```
+
+The Turtlebots have all been updated with a corrected
+```
+/turtlebot3_bringup/launch/turtlebot3_robot_multi.launch
+```
+
+**End Note**
+
+----
 Multi Agent SLAM+Localization, for Sim/Hardware
 
 The current setup uses two ROS packages to operate: gmapping and amcl. gmapping is a particle filter-based SLAM package,
 which takes in the /scan topic and publishes the /map and /map_metadata topics and updates the /odom topic. Some teams also rely on the /dynamic_map service, which immediately returns the latest map. amcl (adaptive Monte Carlo localization) estimates position against a known map, updating the /odom topic.
 
 Custom launch files, an rviz config file, and a client node package must be added to the catkin_ws. Launch files must go into their respective Turtlebot packages.
+
+Note: you will need to run 
+ ```
+ catkin_make
+ . ~/catkin_ws/devel/setup.bash
+ ```
+ to add the particle filter initialization node to your catkin workspace.
 
 The overall CONOPS is as follows. Note all commands are for [REMOTE] unless indicated [TURTLEBOT]:
 (Optional) SLAM/Localization visualization can be launched with  
@@ -43,6 +78,20 @@ The overall CONOPS is as follows. Note all commands are for [REMOTE] unless indi
 Because multiple Turtlebots are in use, namespacing divides up their essential topics (/cmd_vel, /imu, /joint_states, /odom, /scan) along with the node /robot_state_publisher which is used for updating tf. Custom launch files allow for this, with command line arguments specifying Turtlebot namespace.
 
 Instructions including sim:
+
+```
+roscore
+[TURTLEBOT]roslaunch turtlebot3_bringup turtlebot3_robot_multi.launch ns:=tb3_0
+rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_localize.rviz
+roslaunch turtlebot3_slam turtlebot3_slam_multi.launch ns:=tb3_0
+rosrun map_server map_saver -f blargh_map
+rosnode kill /tb3_0/turtlebot3_slam_gmapping
+roslaunch turtlebot3_slam serve_map.launch map_file:=$HOME/catkin_ws/blargh_map.yaml
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_0 x0:=0.0 y0:=-2.0 th0:=1.57
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_1 x0:=0.0 y0:=-0.5 th0:=1.57
+roslaunch turtlebot3_slam turtlebot3_localize_multi.launch ns:=tb3_2 x0:=0.5 y0:=0.0 th0:=0.0
+```
+	
 ```
 [REMOTE]
 roscore

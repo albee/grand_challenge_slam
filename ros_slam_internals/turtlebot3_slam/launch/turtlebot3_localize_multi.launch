@@ -2,15 +2,17 @@
   <arg name="ns" default="tb3_0"/>
 
   <!-- Turtlebot3 -->
-  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote_multi.launch" />
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote_multi.launch">
+    <arg name="ns" value="$(arg ns)" />
+  </include>
 
   <arg name="x0" default="0.0"/>
   <arg name="y0" default="-2.0"/>
   <arg name="th0" default="1.57"/>
-  <arg name="tf_prefix" default="tb3_0"/>
+  <arg name="tf_prefix" default="$(arg ns)"/>
  
     <!-- AMCL -->
-    <node pkg="amcl" type="amcl" name="$(arg ns)_amcl">
+    <node pkg="amcl" type="amcl" name="$(arg ns)_amcl" output="screen">
 
       <param name="min_particles"             value="500"/>
       <param name="max_particles"             value="3000"/>
